@@ -5,25 +5,38 @@
     <meta charset="utf-8" />
     <title>{{ page.title }}</title>
     <link rel="stylesheet" type="text/css" href="/css/default.css">
-    <style>
-        
-    </style>
+    {% if layout.css_file %}
+    <link rel="stylesheet" type="text/css" href="/css/{{ layout.css_file }}">
+    {% endif %}
+    {% if page.css_file %}
+    <link rel="stylesheet" type="text/css" href="/css/{{ page.css_file }}">
+    {% endif %}
 </head>
 
 <body>
     <header class="header">
-        <span class="header-logo">GG空间</span>
-        <nav class="header-nav">
-            <a href="#">文章</a>
-            <a href="#">想法</a>
-        </nav>
+        <div class="header-container">
+            <span class="header-logo">GG空间</span>
+            <nav class="header-nav">
+                <a href="#">文章</a>
+                <a href="#">随想</a>
+            </nav>
+        </div>
     </header>
-    <main class="main">
+    <main class="main-container">
         {{ content }}
     </main>
     <footer class="footer">
-        @supergem3000
+        <div class="footer-container">
+            @supergem3000
+        </div>
     </footer>
+    {% if layout.js_file %}
+    <script type="text/javascript" src="/js/{{ layout.js_file }}"></script>
+    {% endif %}
+    {% if page.js_file %}
+    <script type="text/javascript" src="/js/{{ page.js_file }}"></script>
+    {% endif %}
 </body>
 
 </html>

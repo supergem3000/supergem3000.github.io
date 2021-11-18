@@ -1,0 +1,20 @@
+.homepage {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.side-nav {
+    width: 200px;
+    margin-left: 16px;
+}
+
+.main-content {
+    flex-grow: 1;
+}
+
+.category-container {
+    border: 2px var(--color-gray) solid;
+    border-radius: 8px;
+    padding: 8px;
+}

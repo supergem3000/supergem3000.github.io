@@ -1,16 +1,29 @@
 ---
 layout: default
 title: BLOG
+css_file: homepage.css
 ---
-
-<h2>{{ page.title }}</h2>
-
-<p>文章</p>
-
-<ul>
-    {% for post in site.posts %}
-    <li>{{ post.date | date_to_string }}
-        <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-    </li>
-    {% endfor %}
-</ul>
+<div class="homepage">
+    <div class="main-content">
+        <h1>文章列表</h1>
+        <ul>
+            {% for post in site.posts %}
+            <li>{{ post.date | date_to_string }}
+                <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="side-nav">
+        <div class="category-container">
+            <h2>分类标签</h2>
+            <ul>
+                {% for tag in site.tags %}
+                <li>
+                    <a href="#">{{ tag[0] }}</a>({{tag[1].size}})
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>

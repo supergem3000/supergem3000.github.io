@@ -1,0 +1,23 @@
+---
+layout: default
+css_file: article.css
+js_file: article.js
+---
+<div class="article">
+    <div class="article-header">
+        <div class="article-title">
+            {{ page.title }}
+        </div>
+        <div class="article-info" id="article-info">
+            {{ page.date }}
+        </div>
+    </div>
+    <div id="overdue-warning">
+        本篇文章发布于<span id="overdue-warning-day-num">0</span>天前，其内容可能已经过期，请自行判别内容。
+    </div>
+    <div class="article-content">
+        {{ content }}
+    </div>
+    <div class="side-nav">
+    </div>
+</div>

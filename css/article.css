@@ -1,0 +1,64 @@
+.article-header {
+    padding: 16px;
+    background-color: #e6f7ff;
+    border: 2px solid #91d5ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#overdue-warning {
+    margin-top: 8px;
+    padding: 8px;
+    background-color: #fff1f0;
+    border: 2px solid #ffa39e;
+    font-size: 16px;
+    display: none;
+}
+
+.article-title {
+    font-size: 32px;
+    line-height: 48px;
+}
+
+.article-info {
+    line-height: 24px;
+}
+
+.article-content h1,
+.article-content h2,
+.article-content h3,
+.article-content h4,
+.article-content h5,
+.article-content h6 {
+    font-size: 32px;
+    font-weight: normal;
+}
+
+.article-content h1::before,
+.article-content h2::before,
+.article-content h3::before,
+.article-content h4::before,
+.article-content h5::before,
+.article-content h6::before {
+    color: var(--color-gray);
+}
+
+.article-content h1::before {
+    content: "#";
+}
+.article-content h2::before {
+    content: "##";
+}
+.article-content h3::before {
+    content: "###";
+}
+.article-content h4::before {
+    content: "####";
+}
+.article-content h5::before {
+    content: "#####";
+}
+.article-content h6::before {
+    content: "######";
+}
