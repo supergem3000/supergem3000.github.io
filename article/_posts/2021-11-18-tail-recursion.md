@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: layout_article
 title: 什么是尾递归？
 tags: 计算机科学
 ---
@@ -47,3 +47,9 @@ fibonacci_tailrec(0, 1, n);
 Python、Java没有做尾递归优化是为了抛出异常时有完整的Stack Trace。
 
 对于 C++ 等语言来说，在函数最后`return f(x);`并不一定是尾递归。在返回之前很可能涉及到对象的析构函数，使得`f(x)`不是最后执行的那个。
+
+# 参考资料
+
+[什么是尾递归？ - 知乎 (zhihu.com)](https://www.zhihu.com/question/20761771)
+
+[尾调用优化 - 阮一峰的网络日志 (ruanyifeng.com)](https://www.ruanyifeng.com/blog/2015/04/tail-call.html)
