@@ -47,3 +47,11 @@ fibonacci_tailrec(0, 1, n);
 Python、Java没有做尾递归优化是为了抛出异常时有完整的Stack Trace。
 
 对于 C++ 等语言来说，在函数最后`return f(x);`并不一定是尾递归。在返回之前很可能涉及到对象的析构函数，使得`f(x)`不是最后执行的那个。
+
+JavaScript按照ES6的规范，只会在严格模式下触发优化。因为在正常模式下，函数内部有两个变量（`arguments`和`func.caller`)，可以跟踪函数的调用栈。尾调用优化发生时，函数的调用栈会改写，因此上面两个变量就会失真。严格模式禁用这两个变量，所以尾调用模式仅在严格模式下生效。
+
+# 参考
+
+[什么是尾递归？ - 知乎 (zhihu.com)](https://www.zhihu.com/question/20761771)
+
+[尾调用优化 - 阮一峰的网络日志 (ruanyifeng.com)](http://www.ruanyifeng.com/blog/2015/04/tail-call.html)
