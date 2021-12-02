@@ -10,10 +10,13 @@ css_file: homepage.css
         {% if category[0] == 'article' %}
         <ul>
             {% for post in category[1] %}
-            <li>{{ post.date | date_to_string }}
-                <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-            </li>
-            <span>{{ post.excerpt | strip_html }}</span>
+            <div class="post-item">
+                <li>
+                    <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+                    {{ post.date | date_to_string }}
+                </li>
+                <span>{{ post.excerpt | strip_html }}</span>
+            </div>
             {% endfor %}
         </ul>
         {% endif %}

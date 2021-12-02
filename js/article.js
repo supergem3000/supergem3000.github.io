@@ -49,7 +49,8 @@ function generateToc() {
         }
     }
     if (titleList.length != 0) {
-        toc.style.display = "block";
+        let nav = document.getElementById("article-nav");
+        nav.style.display = "block";
     }
 }
 
