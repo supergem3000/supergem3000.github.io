@@ -5,6 +5,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    color: var(--color-dark);
 }
 
 #overdue-warning {
@@ -23,6 +24,117 @@
 
 .article-info {
     line-height: 24px;
+}
+
+.article-container {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.article-nav {
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-top: 16px;
+    box-sizing: border-box;
+    border: 2px var(--color-gray) solid;
+    padding: 8px;
+    display: none;
+}
+
+@media screen and (min-width: 768px) {
+    .article-container {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    .article-nav {
+        width: 200px;
+        margin-left: 16px;
+    }
+}
+
+div.highlighter-rouge {
+    border: 2px var(--color-gray) solid;
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    padding: 0 1em;
+    overflow-x: auto;
+}
+
+code.highlighter-rouge {
+    background-color: var(--color-light);
+    border: 1px var(--color-gainsboro) solid;
+    border-radius: 2px;
+    padding: 0 2px;
+}
+
+@media (prefers-color-scheme: dark) {
+    code.highlighter-rouge {
+        background-color: var(--color-gray);
+    }
+}
+
+#toc {
+    margin-top: 8px;
+}
+
+.toc-item {
+    margin-bottom: 4px;
+    display: list-item;
+}
+
+.toc-item:last-child {
+    margin-bottom: 0;
+}
+
+.toc-item span {
+    cursor: pointer;
+}
+
+@media (any-hover: hover) {
+    .toc-item span:hover {
+        font-weight: bold;
+    }
+}
+
+.toc-item::marker {
+    color: var(--color-gray);
+}
+
+.toc-h1 {
+    margin-left: 12px;
+}
+.toc-h1::marker {
+    content: ">";
+}
+.toc-h2 {
+    margin-left: 24px;
+}
+.toc-h2::marker {
+    content: " >";
+}
+.toc-h3 {
+    margin-left: 36px;
+}
+.toc-h3::marker {
+    content: "  >";
+}
+.toc-h4 {
+    margin-left: 48px;
+}
+.toc-h4::marker {
+    content: "   >";
+}
+.toc-h5 {
+    margin-left: 60px;
+}
+.toc-h5::marker {
+    content: "    >";
+}
+.toc-h6 {
+    margin-left: 72px;
+}
+.toc-h6::marker {
+    content: "     >";
 }
 
 .article-content h1,

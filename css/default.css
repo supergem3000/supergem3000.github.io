@@ -25,6 +25,13 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    font-family: "YouYuan";
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+a {
+    color: var(--text-color);
 }
 
 .header {
@@ -78,6 +85,7 @@ body {
 
 .footer-container {
     flex-direction: row;
+    box-sizing: border-box;
     padding: 4px;
     line-height: 1rem;
     text-align: center;

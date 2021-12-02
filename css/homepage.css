@@ -13,6 +13,20 @@
     flex-grow: 1;
 }
 
+.post-item {
+    margin-bottom: 16px;
+}
+
+.post-item:last-child {
+    margin-bottom: 0;
+}
+
+.post-item-link {
+    color: var(--text-color);
+    font-weight: bold;
+    font-size: larger;
+}
+
 .category-container {
     border: 2px var(--color-gray) solid;
     border-radius: 8px;
