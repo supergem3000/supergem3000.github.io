@@ -17,10 +17,10 @@
 <body>
     <header class="header">
         <div class="header-container">
-            <span class="header-logo">GG空间</span>
+            <span class="header-logo" id="i18n-g-space">GG空间</span>
             <nav class="header-nav">
-                <a href="/">文章</a>
-                <a href="/thinkings.html">随想</a>
+                <a href="/" id="i18n-articles">文章</a>
+                <a href="/thinkings.html" id="i18n-thinkings">随想</a>
             </nav>
         </div>
     </header>
@@ -38,6 +38,7 @@
     {% if page.js_file %}
     <script type="text/javascript" src="/js/{{ page.js_file }}"></script>
     {% endif %}
+    <script type="text/javascript" src="/js/i18n.js"></script>
 </body>
 
 </html>

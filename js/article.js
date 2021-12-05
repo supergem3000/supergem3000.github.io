@@ -27,7 +27,6 @@ function generateToc() {
             });
         }
     }
-    console.log(titleList);
     const toc = document.getElementById("toc");
     for (let i = 0; i < titleList.length; ++i) {
         let title = titleList[i];

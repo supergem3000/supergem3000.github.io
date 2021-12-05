@@ -5,7 +5,7 @@ css_file: homepage.css
 ---
 <div class="homepage">
     <div class="main-content">
-        <h1>随想</h1>
+        <h1 id="i18n-thinking-list">随想</h1>
         {% for category in site.categories %}
         {% if category[0] == 'thinking' %}
         <ul>
