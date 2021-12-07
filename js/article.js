@@ -13,38 +13,99 @@ function overdueWarning() {
     }
 }
 
-const titleList = [];
-const headers = ["h1", "h2", "h3", "h4", "h5", "h6"];
+function makeTocDom(titleObj) {
+    let el = document.createElement("div");
+    el.classList.add("toc-" + titleObj.tagName, "toc-item", "toc-item-active");
+    
+    let title = document.createElement("div");
+    title.className = "toc-item-title";
+    
+    let arrowContainer = document.createElement("div");
+    arrowContainer.className = "toc-item-arrow";
+    let arrow = document.createElement("span");
+    arrow.className = "arrow";
+    arrowContainer.appendChild(arrow);
+    title.appendChild(arrowContainer);
+
+    let text = document.createElement("span");
+    text.className = "toc-item-content"
+    text.innerText = titleObj.text;
+    text.setAttribute("data-anchor", titleObj.id);
+    title.appendChild(text);
+
+    el.appendChild(title)
+
+    if (titleObj.children.length === 0) {
+        arrowContainer.classList.add("toc-item-arrow-none");
+    } else {
+        let childrenContainer = document.createElement("div");
+        childrenContainer.className = "toc-item-children";
+        titleObj.children.forEach(c => {
+            childrenContainer.appendChild(makeTocDom(c));
+        })
+        el.appendChild(childrenContainer);
+    }
+
+    return el;
+}
+
 function generateToc() {
+    const titleList = [];
+    const headers = { "h1": 1, "h2": 2, "h3": 3, "h4": 4, "h5": 5, "h6": 6 };
     const article = document.getElementById("article-content");
     for (let i = 0; i < article.children.length; ++i) {
         child = article.children[i];
-        if (headers.includes(child.tagName.toLowerCase())) {
-            titleList.push({
-                tagName: child.tagName.toLowerCase(),
+        let tagName = child.tagName.toLowerCase()
+        if (Object.keys(headers).includes(tagName)) {
+            let len = titleList.length;
+            let titleObj = {
+                tagName: tagName,
                 text: child.innerText,
-                id:child.id
-            });
+                id: child.id,
+                children: [],
+            }
+            if (len === 0 || headers[tagName] <=
+                    headers[titleList[len - 1].tagName]) {
+                titleList.push(titleObj);
+            }else {
+                let f = titleList[len - 1];
+                while (true) {
+                    if (f.children.length == 0) {
+                        break;
+                    }
+                    if (headers[tagName] <= 
+                            headers[f.children[f.children.length - 1].tagName]) {
+                        break;
+                    }
+                    f = f.children[f.children.length - 1];
+                }
+                f.children.push(titleObj);
+            }
         }
     }
+    console.log(JSON.stringify(titleList));
     const toc = document.getElementById("toc");
-    for (let i = 0; i < titleList.length; ++i) {
-        let title = titleList[i];
-        let element = document.createElement("div");
-        element.classList.add("toc-" + title.tagName, "toc-item");
-        let text = document.createElement("span");
-        text.innerText = title.text;
-        text.setAttribute("data-anchor", "#" + title.id);
-        element.appendChild(text);
-        toc.appendChild(element);
-    }
+    titleList.forEach(el => {
+        toc.appendChild(makeTocDom(el));
+    })
     toc.onclick = function(event) {
         let target = event.target;
-        if (target.nodeName.toLowerCase() === "span") {
+        if (target.className === "toc-item-content") {
             console.log(target.getAttribute("data-anchor"));
-            document.querySelector(target.getAttribute("data-anchor")).scrollIntoView({
+            document.getElementById(target.getAttribute("data-anchor")).scrollIntoView({
                 behavior: "smooth"
             });
+        } else if (target.className === "arrow" 
+                || target.className === "toc-item-arrow") {
+            let fa = target.parentNode.parentNode;
+            if (target.className === "arrow") {
+                fa = fa.parentNode;
+            };
+            if (fa.classList.contains("toc-item-active")) {
+                fa.classList.remove("toc-item-active");
+            } else {
+                fa.classList.add("toc-item-active");
+            }
         }
     }
     if (titleList.length != 0) {
