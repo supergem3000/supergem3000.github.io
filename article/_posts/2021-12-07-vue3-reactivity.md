@@ -19,7 +19,7 @@ price = 20;
 console.log(`total is ${total}`); // total is 10
 ```
 
-对于一般的JavaScript代码，修改了price的值后，很显然total的值不会更新，因为不是响应式。本文需要做的是一步一步实现Vue 3中建立响应式的方法。
+对于一般的JavaScript代码，修改了`price`的值后，很显然`total`的值不会更新，因为不是响应式。本文需要做的是一步一步实现Vue 3中建立响应式的方法。
 
 # 需手动调用的“响应式”
 
@@ -239,7 +239,8 @@ effect(() => { total = product.price * product.quantity; });
 
 // 修改track函数
 function track(target, key) {
-    if (activeEffect) { // 仅当acticeEffect时才调用track
+    // 仅当acticeEffect时才调用track
+    if (activeEffect) {
         let depsMap = targetMap.get(target);
     	if (!depsMap) {
     	    targetMap.set(target, (depsMap = new Map()));
@@ -344,13 +345,7 @@ let total = computed(() => {
 })
 ```
 
-接下来需要对`computed`计算属性进行实现。
-
-## 思路
-
-1. 创建一个响应式引用，称为result。
-2. 在effect中运行getter，然后将其赋值给result.value。
-3. 最后返回result。
+接下来只需要利用之前的响应式变量对`computed`计算属性进行实现。
 
 ## 代码实现
 
