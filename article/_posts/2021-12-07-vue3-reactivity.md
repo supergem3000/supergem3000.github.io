@@ -1,8 +1,10 @@
 ---
-
+layout: layout_article
+title: Vue 3响应式原理
+tags: Vue JavaScript
 ---
 
-根据Vue Mastery的课程学习Vue 3响应式原理。从一段简单的JavaScript代码一步一步实现Vue 3的响应式。
+本文是对Vue Mastery中Vue 3响应式原理课程的学习与总结。从一段简单的JavaScript代码一步一步实现Vue 3的响应式。
 
 # 从一段计算总数的JavaScript代码开始
 
@@ -17,9 +19,9 @@ console.log(`total is ${total}`); // total is 10
 
 对于一般的JavaScript代码，修改了price的值后，很显然total的值不会更新，因为不是响应式。本文需要做的是一步一步实现Vue 3中建立响应式的方法。
 
-# 初步实现需手动调用的“响应式”
+# 需手动调用的“响应式”
 
-## 解决思路
+## 思路
 
 1. 将更新变量值的代码保存。
 
@@ -29,9 +31,9 @@ console.log(`total is ${total}`); // total is 10
 
 2. 需要时再运行此段代码。
 
-## 改写代码
+## 代码实现
 
-总体代码结构：
+总体代码逻辑结构：
 
 ```javascript
 let price = 5;
@@ -92,6 +94,8 @@ function trigger(key) {
 }
 ```
 
+改写后的代码逻辑如下：
+
 ```javascript
 let product = { price: 5, quantity: 2 };
 let total = 0;
@@ -109,7 +113,9 @@ trigger();
 console.log(`total is ${total}`); // total is 15
 ```
 
-现在以及解决了一个对象有不同属性的跟着依赖的方法。如果有多个响应式对象呢？则再需要一个Map来存储每个响应式对象的`depsMap`，称作`targetMap`，在Vue 3中类型为WeakMap。
+现在已经有了一个对象多个属性的跟踪依赖的方法。如果有多个响应式对象呢？则再需要一个Map来存储每个响应式对象的`depsMap`，称作`targetMap`，类型为WeakMap。
+
+> WeakMap是一组键/值对的集合，其中的键是弱引用的。其键必须是对象，而值可以是任意的。使用WeakMap是为了防止当某个响应式对象不需要时，Map仍存有该对象的强引用使得对象不会被垃圾回收的情况发生。
 
 ```javascript
 const targetMap = new WeakMap();
@@ -136,6 +142,8 @@ function trigger(target, key) {
 }
 ```
 
+改写后的逻辑代码如下：
+
 ```javascript
 let product = { price: 5, quantity: 2 };
 let total = 0;
@@ -155,24 +163,20 @@ console.log(`total is ${total}`); // total is 15
 
 最终的数据结构及职责
 
-![https://firebasestorage.googleapis.com/v0/b/vue-mastery.appspot.com/o/flamelink%2Fmedia%2F1580763789885_5.opt.jpg?alt=media&token=110bf30c-3b78-482f-bac2-30ca8403bfe0](https://firebasestorage.googleapis.com/v0/b/vue-mastery.appspot.com/o/flamelink%2Fmedia%2F1580763789885_5.opt.jpg?alt=media&token=110bf30c-3b78-482f-bac2-30ca8403bfe0)
+![Vue响应式原理数据结构](/assets/img/2021-12-07-vue3-reactivity-1.jpg)
 
 # 实现响应式对象
 
 上一部分代码仍然在手动调用`track()`与`trigger()`来保存与触发`effect`。而我们需要让它们能够自动的被调用。
 
-## 解决思路
+## 思路
 
 1. `effect`中如果访问了某个属性（GET），则调用`track`去保存`effect`。
 2. 如果某个属性改变了（SET），则调用`trigger`运行保存了的`effect`
 
-## Vue 2中的实现
+## 代码实现
 
-Vue 2中使用了ES5的`Object.defineProperty()`去拦截GET和SET。
-
-## Vue 3中的实现
-
-Vue 3中使用了ES6的`Reflect`和`Proxy`。
+Vue 3中使用了ES6的`Reflect`和`Proxy`来实现此功能。
 
 ```javascript
 function reactive(target) {
@@ -247,9 +251,30 @@ function track(target, key) {
 }
 ```
 
+## Vue 2的局限
+
+Vue 2中使用了ES5的`Object.defineProperty()`去拦截GET和SET。创建了一个响应式对象后，无法再添加新的响应式属性。示例如下（代码并非真正的Vue 2写法）：
+
+```javascript
+let product = reactive({ price: 5, quantity: 2 });
+product.name = 'Shoes';
+effect(() => {
+    console.log(`Product name is now ${product.name}`);
+});
+product.name = 'Socks'; // 不会再次运行effect，因为name属性不是响应式的
+```
+
+原因在于Vue 2中GET、SET属性是被添加在对象的各个属性下的，若要给对象添加新的属性，则需要另一种操作：
+
+```javascript
+Vue.set(product, name, 'Socks');
+```
+
+而Vue 3中使用了`Proxy`，就可以为对象直接添加新属性，其也是响应式的。
+
 # 实现响应式变量
 
-之前部分的代码实现了将对象变成响应式对象，但是下面代码的响应式却会存在一些问题：
+之前部分的代码实现了将对象变成响应式对象，但是还没有实现将一个普通变量变成相应时变量。下面代码就无法完全实现响应式：
 
 ```javascript
 let product = reactive({ price: 5, quantity: 2 });
@@ -261,6 +286,8 @@ effect(() => { salePrice = product.price * 0.9; });
 ```
 
 当修改`product.price`的值后，`salePrice`的值会更新，但是`total`的值却不会更新。因为`salePrice`不是一个响应式变量。我们需要一个方法将普通的变量也转换成响应式变量。`ref`接受一个值，并返回一个响应式对象，其只有一个`value`属性。
+
+## 代码实现
 
 一个简单的实现如下，只需创建一个只有`value`属性的响应式对象。
 
@@ -293,6 +320,12 @@ function ref(raw) {
 }
 ```
 
+最后只需将`salePrice`也变为响应式变量即可：
+
+```javascript
+let salePrice = ref(0);
+```
+
 # `computed`计算属性
 
 前面代码的计算逻辑可以使用`computed`计算属性来简化代码，如下：
@@ -311,13 +344,13 @@ let total = computed(() => {
 
 接下来需要对`computed`计算属性进行实现。
 
-## 实现思路
+## 思路
 
-1. 创建一个响应式引用，成为result。
+1. 创建一个响应式引用，称为result。
 2. 在effect中运行getter，然后将其赋值给result.value。
 3. 最后返回result。
 
-## 实现
+## 代码实现
 
 ```javascript
 function computed(getter) {
@@ -327,10 +360,8 @@ function computed(getter) {
 }
 ```
 
-
-
 # 参考资料
 
-[Vue 3 Reactivity - Vue 3 Reactivity | Vue Mastery](https://www.vuemastery.com/courses/vue-3-reactivity/vue3-reactivity)
+[Vue 3 Reactivity - Vue 3 Reactivity \| Vue Mastery](https://www.vuemastery.com/courses/vue-3-reactivity/vue3-reactivity)
 
 [【课程】Vue 3响应式原理 (Vue 3 Reactivity)【中英字幕】- Vue Mastery\_哔哩哔哩\_bilibili](https://www.bilibili.com/video/BV1SZ4y1x7a9)
