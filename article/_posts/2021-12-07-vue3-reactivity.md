@@ -6,6 +6,8 @@ tags: Vue JavaScript
 
 本文是对Vue Mastery中Vue 3响应式原理课程的学习与总结。从一段简单的JavaScript代码一步一步实现Vue 3的响应式。
 
+<!-- more -->
+
 # 从一段计算总数的JavaScript代码开始
 
 ```javascript

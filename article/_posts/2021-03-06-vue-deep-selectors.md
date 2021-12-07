@@ -3,7 +3,7 @@ layout: layout_article
 title: VUE实践——深度作用选择器
 tags: Vue
 ---
-
+<!-- more -->
 # 问题复现
 
 ```vue
