@@ -6,25 +6,41 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>{{ page.title }}</title>
     <link rel="stylesheet" type="text/css" href="/css/default.css">
-    {% if layout.css_file %}
-    <link rel="stylesheet" type="text/css" href="/css/{{ layout.css_file }}">
+
+    {% if layout.css_files %}
+    {% for css_file in layout.css_files %}
+    <link rel="stylesheet" type="text/css" href="/css/{{ css_file }}">
+    {% endfor %}
     {% endif %}
-    {% if page.css_file %}
-    <link rel="stylesheet" type="text/css" href="/css/{{ page.css_file }}">
+
+    {% if page.css_files %}
+    {% for css_file in layout.css_files %}
+    <link rel="stylesheet" type="text/css" href="/css/{{ css_file }}">
+    {% endfor %}
     {% endif %}
 </head>
 
 <body>
     <header class="header">
         <div class="header-container">
-            <span class="header-logo" id="i18n-g-space">GG空间</span>
-            <nav class="header-nav">
-                <a href="/" id="i18n-articles">文章</a>
-                <a href="/thinkings.html" id="i18n-thinkings">随想</a>
-            </nav>
+            <div class="header-lf">
+                <span class="header-logo" id="i18n-g-space">GG空间</span>
+                <nav class="header-nav">
+                    <a href="/" id="i18n-articles">文章</a>
+                    <a href="/thinkings.html" id="i18n-thinkings">随想</a>
+                </nav>
+            </div>
+            <div class="header-rt header-lang-select">
+                <span class="current-lang" id="i18n-lang-display">简体中文</span>
+                <div class="all-lang" id="i18n-lang-select">
+                    <div class="all-lang-corner-border"></div>
+                    <div class="all-lang-corner-in"></div>
+                </div>
+            </div>
         </div>
     </header>
     <main class="main-container">
+        {{ layout.css_file }}
         {{ content }}
     </main>
     <footer class="footer">
@@ -32,12 +48,19 @@
             @supergem3000
         </div>
     </footer>
-    {% if layout.js_file %}
-    <script type="text/javascript" src="/js/{{ layout.js_file }}"></script>
+
+    {% if layout.js_files %}
+    {% for js_file in layout.js_files %}
+    <script type="text/javascript" src="/js/{{ js_file }}"></script>
+    {% endfor %}
     {% endif %}
-    {% if page.js_file %}
-    <script type="text/javascript" src="/js/{{ page.js_file }}"></script>
+
+    {% if page.js_files %}
+    {% for js_file in layout.js_files %}
+    <script type="text/javascript" src="/js/{{ js_file }}"></script>
+    {% endfor %}
     {% endif %}
+
     <script type="text/javascript" src="/js/i18n.js"></script>
 </body>
 

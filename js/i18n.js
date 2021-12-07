@@ -41,17 +41,38 @@ const jp = {
 
 const langs = {
     "zh-Hans": zhHans,
-    "zh-CN": zhHans,
     "zh-Hant": zhHant,
-    "zh-HK": zhHant,
-    "zh-TW": zhHant,
     "en": en,
-    "en-US": en,
     "jp": jp,
 }
+
+const langAliasMap = {
+    "zh-CN": "zh-Hans",
+    "zh-HK": "zh-Hant",
+    "zh-TW": "zh-Hant",
+    "en-US": "en",
+}
+
+const langNameMap = {
+    "zh-Hans":"简体中文",
+    "zh-Hant":"繁體中文",
+    "en":"English",
+    "jp":"日本語",
+}
 const i18nPrefix = "i18n-";
+const i18nOptionPrefix = "i18n-option-"
+let currentLanguage = "";
 
 function changeLanguage(langName) {
+    currentLanguage = langName;
+    let options = document.getElementsByClassName("lang-option");
+    for (let i = 0; i < options.length; ++i) {
+        if (options[i].getAttribute("data-lang-name") === currentLanguage) {
+            options[i].classList.add("lang-option-active");
+        } else {
+            options[i].classList.remove("lang-option-active");
+        }
+    }
     let lang = langs[langName];
     for (key in lang) {
         let idKey = i18nPrefix + key;
@@ -67,13 +88,13 @@ function initLanguage() {
     if (!language) {
         language = "zh-Hans"
         if (navigator.language) {
-            if (langs[navigator.language] !== undefined) {
-                language = navigator.language;
-            } else {
-                for (let i = 0; i < navigator.languages.length; ++i) {
-                    if (langs[navigator.languages[i]] !== undefined) {
-                        language = navigator.languages[i];
-                    }
+            for (let i = 0; i < navigator.languages.length; ++i) {
+                if (langs[navigator.languages[i]] !== undefined) {
+                    language = navigator.languages[i];
+                    break;
+                } else if (langs[langAliasMap[navigator.languages[i]]] !== undefined) {
+                    language = langAliasMap[navigator.languages[i]];
+                    break;
                 }
             }
         }
@@ -86,4 +107,26 @@ function setLanguage(language) {
     changeLanguage(language);
 }
 
+function initLangSelect() {
+    let selector = document.getElementById("i18n-lang-select");
+    selector.onclick = function(event) {
+        let target = event.target;
+        if (target.className == "lang-option" && (!target.classList.contains("lang-option-active"))) {
+            let langName = target.getAttribute("data-lang-name");
+            setLanguage(langName);
+        }
+    }
+    for (langName in langNameMap) {
+        let optionId = i18nOptionPrefix + langName;
+        let option = document.createElement("div");
+        option.className = "lang-option";
+        option.id = optionId;
+        option.innerText = langNameMap[langName];
+        option.setAttribute("data-lang-name", langName);
+        selector.appendChild(option);
+    }
+
+}
+
+initLangSelect();
 initLanguage();
