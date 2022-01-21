@@ -47,11 +47,12 @@ a {
 .header-rt {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    white-space: nowrap;
 }
 
-.header-lf,
-.header-rt {
-    align-items: center;
+.header-lf{
+    overflow-x: auto;
 }
 
 .header-container {
