@@ -1,4 +1,5 @@
 const zhHans = {
+    "lang-display": "简体中文",
     "g-space": "GG空间",
     "articles": "文章",
     "thinkings": "随想",
@@ -9,6 +10,7 @@ const zhHans = {
     "overdue-warning-p2": "天前，其内容可能已经过期。请自行判别。",
 };
 const zhHant = {
+    "lang-display": "繁體中文",
     "g-space": "GG空間",
     "articles": "文章",
     "thinkings": "隨想",
@@ -19,6 +21,7 @@ const zhHant = {
     "overdue-warning-p2": "天前，其内容可能已經過期。請自行判別。",
 };
 const en = {
+    "lang-display": "English",
     "g-space": "G-SPACE",
     "articles": "Articles",
     "thinkings": "Thinkings",
@@ -28,7 +31,8 @@ const en = {
     "overdue-warning-p1": "This article was posted ",
     "overdue-warning-p2": " days ago and may out of date. Please judge by yourself.",
 };
-const jp = {
+const ja = {
+    "lang-display": "日本語",
     "g-space": "GG空間",
     "articles": "文章",
     "thinkings": "オピニオン",
@@ -43,7 +47,7 @@ const langs = {
     "zh-Hans": zhHans,
     "zh-Hant": zhHant,
     "en": en,
-    "jp": jp,
+    "ja": ja,
 }
 
 const langAliasMap = {
@@ -57,14 +61,17 @@ const langNameMap = {
     "zh-Hans":"简体中文",
     "zh-Hant":"繁體中文",
     "en":"English",
-    "jp":"日本語",
+    "ja":"日本語",
 }
 const i18nPrefix = "i18n-";
 const i18nOptionPrefix = "i18n-option-"
 let currentLanguage = "";
 
 function changeLanguage(langName) {
+    let el = document.querySelector("html")
+    el.lang = langName
     currentLanguage = langName;
+    // 将语言选择器中被选中的语言设为高亮
     let options = document.getElementsByClassName("lang-option");
     for (let i = 0; i < options.length; ++i) {
         if (options[i].getAttribute("data-lang-name") === currentLanguage) {
@@ -73,6 +80,7 @@ function changeLanguage(langName) {
             options[i].classList.remove("lang-option-active");
         }
     }
+    // 替换语言
     let lang = langs[langName];
     for (key in lang) {
         let idKey = i18nPrefix + key;
@@ -108,6 +116,7 @@ function setLanguage(language) {
 }
 
 function initLangSelect() {
+    // 为语言选择器添加点击事件，采用事件捕获的方式
     let selector = document.getElementById("i18n-lang-select");
     selector.onclick = function(event) {
         let target = event.target;
@@ -116,6 +125,7 @@ function initLangSelect() {
             setLanguage(langName);
         }
     }
+    // 向语言选择器添加语言选项
     for (langName in langNameMap) {
         let optionId = i18nOptionPrefix + langName;
         let option = document.createElement("div");
@@ -128,5 +138,7 @@ function initLangSelect() {
 
 }
 
+// 初始化语言选择器的功能
 initLangSelect();
+// 根据以往选择或浏览器选项初始化当前语言，默认为简体中文
 initLanguage();

@@ -6,3 +6,4 @@ media查询 any-hover
 weakmap
 es6 reflect receiver
 解决博客flex容器子元素宽度溢出的问题：浅析flex布局被子元素内容撑破的问题 - Flex布局中一个不为人知的特性（flex-item项目的最小尺寸问题）https://www.cnblogs.com/goloving/p/15201080.html
+querySelector与getElementById区别：querySelector采用css选择符、静态。。。

@@ -1,6 +1,6 @@
 ---
 layout: layout_article
-title: VUE实践——深度作用选择器
+title: Vue实践——深度作用选择器
 tags: Vue
 ---
 <!-- more -->
@@ -69,4 +69,4 @@ Vue组件编译后，template中的每个元素会加入`data-v-xxx`属性，如
 
 # 官方文档
 
-[Scoped CSS | Vue Loader (vuejs.org)](https://vue-loader.vuejs.org/zh/guide/scoped-css.html#深度作用选择器)
+[Scoped CSS \| Vue Loader (vuejs.org)](https://vue-loader.vuejs.org/zh/guide/scoped-css.html#深度作用选择器)
