@@ -43,6 +43,10 @@ Git-LFS插件：
 
 > 一些机器学习库使用3.7版本兼容性较好。3.7.9是3.7最后一个提供安装包的版本。
 
+pypi镜像：
+
+- [pypi &#124; 镜像站使用帮助 &#124; 清华大学开源软件镜像站 &#124; Tsinghua Open Source Mirro](https://mirrors.tuna.tsinghua.edu.cn/help/pypi/)
+
 # Node.js
 
 下载地址：
